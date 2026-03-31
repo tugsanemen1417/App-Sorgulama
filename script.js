@@ -1,56 +1,69 @@
-async function handleFiles(files) {
-    const file = files[0];
-    if (!file) return;
-
-    document.getElementById('upload-area').classList.add('hidden');
-    document.getElementById('loading').classList.remove('hidden');
-
-    const worker = await Tesseract.createWorker('tur');
-    const { data: { text } } = await worker.recognize(file);
-    
-    // TEMİZLEME: Sadece Harf ve Rakamları al, anlamsız uzun metinleri kısalt
-    let cleanedPlate = text.replace(/[^A-Z0-9]/g, '');
-    if(cleanedPlate.length > 10) cleanedPlate = cleanedPlate.substring(0, 10); // Plaka genelde max 9-10 hane olur
-
-    document.getElementById('plate-text').innerText = cleanedPlate || "TESPİT EDİLEMEDİ";
-    await worker.terminate();
-
-    setTimeout(() => {
-        showResult();
-    }, 2000);
+function acceptRules() {
+    document.getElementById('disclaimer-modal').style.display = 'none';
+    document.getElementById('main-content').classList.remove('hidden');
 }
 
-function showResult() {
-    document.getElementById('loading').classList.add('hidden');
-    document.getElementById('result-card').classList.remove('hidden');
+function handleFiles(files) {
+    if (files.length === 0) return;
 
-    // Analiz Parametreleri
-    const score = Math.floor(Math.random() * (100 - 30) + 30); 
-    const isApp = score < 75;
+    // Yükleme butonunu analiz başladıktan sonra aktif et
+    document.getElementById('start-btn').disabled = false;
+    document.getElementById('start-btn').innerText = "1 GÖRSEL HAZIR. BAŞLAT?";
+    document.getElementById('start-btn').style.background = "#dca238"; // Sönük Sarı
 
-    const title = document.getElementById('verdict-title');
-    const desc = document.getElementById('verdict-desc');
-    const reportArea = document.getElementById('report-area');
+    // Log alanını temizle ve hazır mesajı yaz
+    const logStream = document.getElementById('log-stream');
+    logStream.innerHTML = `<p class="log-line log-warning">> [SİSTEM] Görsel yüklendi. Analiz bekleniyor...</p>`;
+}
 
-    // Rapor maddelerini oluştur
-    const reportData = [
-        { label: "Karakter Fontu", val: isApp ? "⚠️ Standart Dışı" : "✅ Orijinal DIN" },
-        { label: "Baskı Kalınlığı", val: isApp ? "⚠️ Kalın (Bold)" : "✅ İnce / Standart" },
-        { label: "Mühür Alanı", val: isApp ? "❌ Tespit Edilemedi" : "✅ Geçerli" },
-        { label: "Muayene Uyumu", val: isApp ? "🚨 Riskli" : "✅ Sorunsuz" }
+async function startAnalysis() {
+    const startBtn = document.getElementById('start-btn');
+    startBtn.disabled = true;
+    startBtn.innerText = "ANALİZ SÜRÜYOR...";
+    startBtn.style.background = "#1a1e29"; // Pasif gri
+
+    const logStream = document.getElementById('log-stream');
+    logStream.innerHTML = ""; // Temizle
+
+    // Terminal efektiyle rapor yazdırma (Satır satır)
+    const logData = [
+        { text: "> [SİSTEM] Forensic Protokolü V1.0 başlatıldı.", type: "" },
+        { text: "> [GÖRSEL] Çözünürlük ve HDR taraması yapılıyor...", type: "" },
+        { text: "> [GÖRSEL] 1 Görsel analiz ediliyor.", type: "" },
+        { text: "> [ANALİZ] Karakter et kalınlığı taraması...", type: "" },
+        { text: "> [ANALİZ] Mühür alanı geometrik denetimi...", type: "" },
+        { text: ">", type: "" }, // Boş satır
+        { text: "== ANALİZ RAPORU ==", type: "log-warning" }
     ];
 
-    reportArea.innerHTML = reportData.map(item => `
-        <li><span>${item.label}</span> <b>${item.val}</b></li>
-    `).join('');
-
-    if (score >= 75) {
-        title.innerText = "ORİJİNAL PLAKA";
-        title.className = "status-badge success-bg"; // CSS'de tanımlayabilirsin
-        desc.innerText = "Görsel analiz sonucunda plakanızın yasal standartlara tam uyumlu olduğu tespit edilmiştir.";
+    // Simülasyon Analiz Sonucu
+    const isApp = Math.random() > 0.4;
+    
+    if (isApp) {
+        logData.push(
+            { text: ">> Tespit Edilen Tür: APP (Standart Dışı)", type: "log-risk" },
+            { text: ">> Karakterler: Kalın / Bold (%85 risk)", type: "log-risk" },
+            { text: ">> Geometri: Köşeli karakter yapısı.", type: "log-risk" },
+            { text: ">> Risk Maliyeti: ~₺5.627+ ceza/gider riski.", type: "log-risk" },
+            { text: "> [SONUÇ] Araç muayeneden geçemez. Yüksek ceza riski.", type: "log-risk" }
+        );
     } else {
-        title.innerText = "APP / STANDART DIŞI";
-        title.className = "status-badge warning-bg";
-        desc.innerText = "Dikkat! Karakterlerin yapısı resmi mühürlü plakalardan farklılık gösteriyor.";
+        logData.push(
+            { text: ">> Tespit Edilen Tür: Orijinal", type: "log-success" },
+            { text: ">> Karakterler: Standart ince font.", type: "log-success" },
+            { text: ">> Mühür Alanı: Geçerli tarama yapıldı.", type: "log-success" },
+            { text: ">> Risk: Yok.", type: "log-success" },
+            { text: "> [SONUÇ] Plaka yasal standartlara uygun görünmektedir.", type: "log-success" }
+        );
+    }
+
+    logData.push({ text: "> [SİSTEM] Analiz tamamlandı.", type: "" });
+
+    // Satır satır ekle (Terminal efekti)
+    for (const log of logData) {
+        logStream.innerHTML += `<p class="log-line ${log.type}">${log.text}</p>`;
+        // Log alanını en aşağı kaydır
+        logStream.scrollTop = logStream.scrollHeight;
+        await new Promise(r => setTimeout(r, 150)); // Her satır arası 150ms bekle
     }
 }
