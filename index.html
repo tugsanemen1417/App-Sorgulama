@@ -3,62 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATE FORENSICS | Plaka Analiz</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Play&display=swap" rel="stylesheet">
+    <title>PLATE FORENSICS PRO | AI-Adli Analiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-forensics">
+<body>
 
-    <div id="disclaimer-modal" class="modal">
-        <div class="modal-content">
-            <h3 class="system-h">SİSTEM ANALİZ PROTOKOLÜ V1.0</h3>
-            <p>> Bu sistem plaka geometrisi ve karakter kalınlığını tarar.</p>
-            <p>> APP (Standart dışı) plaka kullanımı yasal riskler içerir.</p>
-            <p>> Analiz sonuçları teknik bir tahmindir.</p>
-            <button id="accept-btn" class="button neon">PROTOKOLÜ KABUL ET</button>
+    <div id="boot-modal" class="modal">
+        <div class="modal-box">
+            <h2 class="neon-text">SİSTEM YÜKLENİYOR</h2>
+            <p class="modal-desc">[ANALİZ PROTOKOLÜ: Bu yazılım plaka standartlarını fiziksel parametreler üzerinden simüle eder.]</p>
+            <button onclick="bootSystem()" class="btn neon-border">SİSTEMİ BAŞLAT</button>
         </div>
     </div>
 
-    <div class="container" id="main-content">
-        
-        <header class="app-header">
-            <div class="header-left">
-                <div class="scanner-icon">🔎</div>
-                <div class="titles">
-                    <h1>PLATE FORENSICS</h1>
-                    <h2>TÜRKİYE PLAKA ANALİZ SİSTEMİ - V1.0</h2>
-                </div>
+    <div class="container" id="main-ui">
+        <header>
+            <div class="logo">
+                <h1>PLATE <span class="thin">FORENSICS</span></h1>
+                <div class="sub-logo">ADVANCED AI DETECTION SYSTEM V5.0</div>
             </div>
-            <div class="status-indicator">
-                <span class="pulse green"></span>
-                <span>SİSTEM AKTİF</span>
-            </div>
+            <div id="clock" class="neon-text">CONNECTING...</div>
         </header>
 
-        <div class="paneller">
-            <section class="forensic-panel">
-                <h3 class="panel-h yellow-dot">VERİ GİRİŞİ</h3>
-                <div class="upload-area">
-                    <div class="icon">📷</div>
-                    <input type="file" id="fileElem" accept="image/*" multiple onchange="handleFiles(this.files)" style="display: none;">
-                    <label class="button fill" for="fileElem">FOTOĞRAFLARI SEÇ (ÇOKLU)</label>
-                    <p id="file-status" style="font-size: 0.75rem; color: #475569; margin-top:10px;">Dosya Bekleniyor...</p>
+        <div class="grid">
+            <section class="cyber-panel">
+                <h3 class="panel-title">[01] VERİ ENJEKSİYONU</h3>
+                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('fileInput').click()">
+                    <input type="file" id="fileInput" multiple accept="image/*" style="display:none">
+                    <div id="drop-text">GÖRSELİ BURAYA BIRAKIN VEYA SEÇİN</div>
+                    <div class="file-hints">JPG, PNG, RAW | MULTI-SYNC SUPPORT</div>
                 </div>
-                <button class="button forensic-start" id="start-btn" disabled>ANALİZİ BAŞLAT</button>
+                <button id="scan-btn" class="btn main-btn" disabled>DERİN TARAMAYI BAŞLAT</button>
             </section>
 
-            <section class="forensic-panel">
-                <h3 class="panel-h blue-dot">CANLI ANALİZ LOGU</h3>
-                <div class="log-stream" id="log-stream">
-                    <p class="log-placeholder">Sistem veri girişi bekliyor...</p>
+            <section class="cyber-panel">
+                <h3 class="panel-title" style="color: #ffcf00;">[02] ADLİ ANALİZ ÇIKTISI</h3>
+                <div class="terminal" id="terminal">
+                    <div class="log-entry log-info">> Sistem beklemede... Veri girişi yapın.</div>
                 </div>
             </section>
         </div>
 
-        <footer class="app-footer">
-            <div class="footer-left">🚨 APP PLAKA TESPİT PROTOKOLÜ</div>
-            <div class="active-rules">12 AKTİF KURAL AKTİF ▼</div>
-        </footer>
+        <div class="status-bar">
+            <span class="log-crit">GÜNCEL CEZA UYARISI:</span> 2026 yılı itibarıyla standart dışı plaka kullanımı 
+            <span class="log-crit">₺3.830</span> para cezası ve muayenede <span class="log-crit">AĞIR KUSUR</span> sebebidir.
+        </div>
     </div>
 
     <script src="script.js"></script>
