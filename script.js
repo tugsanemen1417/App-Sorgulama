@@ -1,4 +1,5 @@
 function acceptRules() {
+    // Modalı kapat ve ana içeriği göster
     document.getElementById('disclaimer-modal').style.display = 'none';
     document.getElementById('main-content').classList.remove('hidden');
 }
@@ -6,64 +7,63 @@ function acceptRules() {
 function handleFiles(files) {
     if (files.length === 0) return;
 
-    // Yükleme butonunu analiz başladıktan sonra aktif et
-    document.getElementById('start-btn').disabled = false;
-    document.getElementById('start-btn').innerText = "1 GÖRSEL HAZIR. BAŞLAT?";
-    document.getElementById('start-btn').style.background = "#dca238"; // Sönük Sarı
+    // Dosya seçimini algıla
+    const startBtn = document.getElementById('start-btn');
+    const fileStatus = document.getElementById('file-status');
 
-    // Log alanını temizle ve hazır mesajı yaz
-    const logStream = document.getElementById('log-stream');
-    logStream.innerHTML = `<p class="log-line log-warning">> [SİSTEM] Görsel yüklendi. Analiz bekleniyor...</p>`;
+    fileStatus.innerText = "> DOSYA HAZIR: " + files[0].name;
+    fileStatus.style.color = "#38bdf8";
+    
+    startBtn.disabled = false;
+    startBtn.innerText = "ANALİZİ BAŞLAT";
 }
 
 async function startAnalysis() {
-    const startBtn = document.getElementById('start-btn');
-    startBtn.disabled = true;
-    startBtn.innerText = "ANALİZ SÜRÜYOR...";
-    startBtn.style.background = "#1a1e29"; // Pasif gri
-
     const logStream = document.getElementById('log-stream');
-    logStream.innerHTML = ""; // Temizle
+    const startBtn = document.getElementById('start-btn');
+    
+    startBtn.disabled = true;
+    startBtn.innerText = "ANALİZ YÜRÜTÜLÜYOR...";
+    logStream.innerHTML = ""; 
 
-    // Terminal efektiyle rapor yazdırma (Satır satır)
-    const logData = [
-        { text: "> [SİSTEM] Forensic Protokolü V1.0 başlatıldı.", type: "" },
-        { text: "> [GÖRSEL] Çözünürlük ve HDR taraması yapılıyor...", type: "" },
-        { text: "> [GÖRSEL] 1 Görsel analiz ediliyor.", type: "" },
-        { text: "> [ANALİZ] Karakter et kalınlığı taraması...", type: "" },
-        { text: "> [ANALİZ] Mühür alanı geometrik denetimi...", type: "" },
-        { text: ">", type: "" }, // Boş satır
-        { text: "== ANALİZ RAPORU ==", type: "log-warning" }
+    const logs = [
+        { t: "> [SİSTEM] Forensic motoru aktif edildi...", s: "" },
+        { t: "> [VERİ] Görüntü pikselleri normalize ediliyor...", s: "" },
+        { t: "> [TARA] Karakter geometrisi kontrol ediliyor...", s: "" },
+        { t: "> [TARA] Font et kalınlığı ölçülüyor...", s: "" },
+        { t: "> [ANALİZ] TŞOF soğuk mühür izi aranıyor...", s: "" },
+        { t: "> [DURUM] Kritik bulgular saptandı.", s: "log-warn" },
+        { t: " ", s: "" },
+        { t: "=== ANALİZ RAPORU ===", s: "log-warn" }
     ];
 
-    // Simülasyon Analiz Sonucu
+    // Rastgele sonuç üret (APP veya Orijinal)
     const isApp = Math.random() > 0.4;
-    
+
     if (isApp) {
-        logData.push(
-            { text: ">> Tespit Edilen Tür: APP (Standart Dışı)", type: "log-risk" },
-            { text: ">> Karakterler: Kalın / Bold (%85 risk)", type: "log-risk" },
-            { text: ">> Geometri: Köşeli karakter yapısı.", type: "log-risk" },
-            { text: ">> Risk Maliyeti: ~₺5.627+ ceza/gider riski.", type: "log-risk" },
-            { text: "> [SONUÇ] Araç muayeneden geçemez. Yüksek ceza riski.", type: "log-risk" }
+        logs.push(
+            { t: "[!] BULGU: Standart Dışı (APP) Karakterler", s: "log-err" },
+            { t: "[!] RİSK: Muayeneden GEÇEMEZ (Ağır Kusur)", s: "log-err" },
+            { t: "[!] MALİYET: 2.647 TL Trafik Cezası Riski", s: "log-err" },
+            { t: "[!] ÖNERİ: Plakayı acilen mühürlü orijinaliyle değiştirin.", s: "log-warn" }
         );
     } else {
-        logData.push(
-            { text: ">> Tespit Edilen Tür: Orijinal", type: "log-success" },
-            { text: ">> Karakterler: Standart ince font.", type: "log-success" },
-            { text: ">> Mühür Alanı: Geçerli tarama yapıldı.", type: "log-success" },
-            { text: ">> Risk: Yok.", type: "log-success" },
-            { text: "> [SONUÇ] Plaka yasal standartlara uygun görünmektedir.", type: "log-success" }
+        logs.push(
+            { t: "[+] BULGU: Yasal Karakter Geometrisi", s: "log-ok" },
+            { t: "[+] DURUM: Muayene Uyumluluğu %100", s: "log-ok" },
+            { t: "[+] SONUÇ: Orijinal plaka tescili onaylandı.", s: "log-ok" }
         );
     }
 
-    logData.push({ text: "> [SİSTEM] Analiz tamamlandı.", type: "" });
-
-    // Satır satır ekle (Terminal efekti)
-    for (const log of logData) {
-        logStream.innerHTML += `<p class="log-line ${log.type}">${log.text}</p>`;
-        // Log alanını en aşağı kaydır
+    // Terminal efektiyle yazdır
+    for (let log of logs) {
+        let p = document.createElement('p');
+        p.className = "log-line " + log.s;
+        p.innerText = log.t;
+        logStream.appendChild(p);
         logStream.scrollTop = logStream.scrollHeight;
-        await new Promise(r => setTimeout(r, 150)); // Her satır arası 150ms bekle
+        await new Promise(r => setTimeout(r, 250)); // Her satırda 250ms bekle
     }
+
+    startBtn.innerText = "ANALİZ TAMAMLANDI";
 }
