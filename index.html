@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATE FORENSICS | Türkiye Orijinallik Tespit Sistemi</title>
+    <title>PLATE FORENSICS | Plaka Orijinallik Analiz</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Play&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,19 +13,20 @@
         <div class="modal-content">
             <h3 class="system-h">SİSTEM ANALİZ PROTOKOLÜ V1.0</h3>
             <p>> Bu sistem plaka geometrisi ve karakter kalınlığını tarar.</p>
-            <p>> Sonuçlar teknik tahmindir, yasal tescil niteliği taşımaz.</p>
+            <p>> APP (Standart dışı) plaka kullanımı yasal riskler içerir.</p>
+            <p>> Analiz sonuçları teknik bir tahmindir.</p>
             <button onclick="acceptRules()" class="button neon">PROTOKOLÜ KABUL ET</button>
         </div>
     </div>
 
-    <div class="container main-layout hidden" id="main-content">
+    <div class="container hidden" id="main-content">
         
         <header class="app-header">
             <div class="header-left">
                 <div class="scanner-icon">🔎</div>
                 <div class="titles">
                     <h1>PLATE FORENSICS</h1>
-                    <h2>TÜRKİYE PLAKA ORİJİNALLİK TESPİT SİSTEMİ - V1.0</h2>
+                    <h2>TÜRKİYE PLAKA ANALİZ SİSTEMİ - V1.0</h2>
                 </div>
             </div>
             <div class="status-indicator">
@@ -35,45 +36,32 @@
         </header>
 
         <div class="paneller">
-            
-            <section class="forensic-panel load-panel">
-                <h3 class="panel-h yellow-dot">PLAKA FOTOĞRAFI YÜKLE</h3>
-                
-                <div class="upload-area" id="drop-area">
+            <section class="forensic-panel">
+                <h3 class="panel-h yellow-dot">VERİ GİRİŞİ</h3>
+                <div class="upload-area">
                     <div class="icon">📷</div>
                     <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
-                    <label class="button fill" for="fileElem">FOTOĞRAF SEÇ VEYA SÜRÜKLE</label>
-                    <p class="file-note">JPG, PNG, WEBP - Max 20MB</p>
+                    <label class="button fill" for="fileElem">FOTOĞRAF SEÇ / SÜRÜKLE</label>
+                    <p id="file-status" style="font-size: 0.75rem; color: #475569; margin-top:10px;">Dosya Bekleniyor...</p>
                 </div>
-
-                <div id="file-ready" class="hidden">
-                    <p class="ready-text">> 1 Dosya Hazır.</p>
-                </div>
-
-                <button class="button forensic-start" id="start-btn" onclick="startAnalysis()" disabled>
-                    ANALİZİ BAŞLAT
-                </button>
+                <button class="button forensic-start" id="start-btn" onclick="startAnalysis()" disabled>ANALİZİ BAŞLAT</button>
             </section>
 
-            <section class="forensic-panel log-panel">
+            <section class="forensic-panel">
                 <h3 class="panel-h blue-dot">CANLI ANALİZ LOGU</h3>
                 <div class="log-stream" id="log-stream">
-                    <p class="log-placeholder">Analiz başladığında kayıtlar burada görünecek...</p>
+                    <p class="log-placeholder">Sistem analiz için veri girişi bekliyor...</p>
                 </div>
             </section>
         </div>
 
         <footer class="app-footer">
             <div class="footer-left">
-                <span class="warning-icon">⚠️</span>
-                <span>APP PLAKA TESPİT KURALLARI</span>
+                <span class="warning-icon">🚨</span>
+                <span>APP PLAKA TESPİT PROTOKOLÜ</span>
             </div>
-            <div class="active-rules">
-                <span>12 AKTİF KURAL</span>
-                <span class="arrow-down">▼</span>
-            </div>
+            <div class="active-rules">12 AKTİF KURAL AKTİF ▼</div>
         </footer>
-
     </div>
 
     <script src="script.js"></script>
