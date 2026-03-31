@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlakaScanner | AI Analiz</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</head>
+<body>
+    <div id="disclaimer-modal" class="modal">
+        <div class="modal-content">
+            <h3>⚠️ Yasal Uyarı ve Kurallar</h3>
+            <p>1. Bu sistem plakanın font kalınlığı, köşe yapısı ve mühür alanını analiz eder.</p>
+            <p>2. Sonuçlar tahmindir, resmi belge yerine geçmez.</p>
+            <button onclick="acceptRules()" class="button">ANLADIM, BAŞLA</button>
+        </div>
+    </div>
+
+    <div class="container" id="main-content">
+        <header>
+            <h1>Plaka<span>Scanner</span></h1>
+            <p>APP ve Orijinal Plaka Analiz Laboratuvarı</p>
+        </header>
+
+        <div class="upload-section" id="upload-area">
+            <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
+            <label class="button" for="fileElem">PLAKA FOTOĞRAFI SEÇ</label>
+            <p>Analiz için net bir fotoğraf gereklidir.</p>
+        </div>
+
+        <div id="loading" class="hidden">
+            <div class="scanner-line"></div>
+            <p id="status-text">Yapay zeka karakterleri okuyor...</p>
+        </div>
+
+        <div id="result-card" class="hidden">
+            <div class="ocr-box">
+                <span>Okunan Metin:</span>
+                <h2 id="plate-text">---</h2>
+            </div>
+            <div id="score-circle">
+                <span id="percent">%0</span>
+            </div>
+            <h3 id="verdict-title">Analiz Ediliyor...</h3>
+            <p id="verdict-desc"></p>
+            <button onclick="location.reload()" class="retry-btn">YENİ TARAMA</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
