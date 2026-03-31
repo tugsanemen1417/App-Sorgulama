@@ -3,66 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlakaScanner AI | Profesyonel Analiz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>PLATE FORENSICS | Türkiye Orijinallik Tespit Sistemi</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Play&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
-<body>
+<body class="theme-forensics">
 
     <div id="disclaimer-modal" class="modal">
         <div class="modal-content">
-            <h3>⚠️ Analiz Kuralları</h3>
-            <p>Sistemimiz plakanın <b>font geometrisi, karakter kalınlığı ve mühür alanlarını</b> dijital olarak tarar.</p>
-            <p>Sonuçlar yapay zeka tahminidir, resmi tescil yerine geçmez.</p>
-            <button onclick="acceptRules()" class="button">DEVAM ET</button>
+            <h3 class="system-h">SİSTEM ANALİZ PROTOKOLÜ V1.0</h3>
+            <p>> Bu sistem plaka geometrisi ve karakter kalınlığını tarar.</p>
+            <p>> Sonuçlar teknik tahmindir, yasal tescil niteliği taşımaz.</p>
+            <button onclick="acceptRules()" class="button neon">PROTOKOLÜ KABUL ET</button>
         </div>
     </div>
 
-    <div class="container" id="main-content">
-        <header>
-            <h1>Plaka<span>Scanner</span></h1>
-            <p id="sub-header">AI Destekli Fiziksel Doğrulama Sistemi</p>
+    <div class="container main-layout hidden" id="main-content">
+        
+        <header class="app-header">
+            <div class="header-left">
+                <div class="scanner-icon">🔎</div>
+                <div class="titles">
+                    <h1>PLATE FORENSICS</h1>
+                    <h2>TÜRKİYE PLAKA ORİJİNALLİK TESPİT SİSTEMİ - V1.0</h2>
+                </div>
+            </div>
+            <div class="status-indicator">
+                <span class="pulse green"></span>
+                <span>SİSTEM AKTİF</span>
+            </div>
         </header>
 
-        <div class="upload-section" id="upload-area">
-            <div class="icon">📸</div>
-            <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
-            <label class="button" for="fileElem">FOTOĞRAF ANALİZ ET</label>
-            <p style="font-size: 0.8rem; color: #64748b; margin-top: 15px;">Net ve düz çekilmiş fotoğraflar daha doğru sonuç verir.</p>
-        </div>
-
-        <div id="loading" class="hidden">
-            <div class="scanner-container">
-                <div class="scanner-line"></div>
-                <div class="scan-bg"></div>
-            </div>
-            <p id="status-text">Karakterler ve Font Yapısı İnceleniyor...</p>
-        </div>
-
-        <div id="result-card" class="hidden">
-            <div class="result-details">
+        <div class="paneller">
+            
+            <section class="forensic-panel load-panel">
+                <h3 class="panel-h yellow-dot">PLAKA FOTOĞRAFI YÜKLE</h3>
                 
-                <div class="ocr-box">
-                    <small>TESPİT EDİLEN PLAKA</small>
-                    <h2 id="plate-text">---</h2>
+                <div class="upload-area" id="drop-area">
+                    <div class="icon">📷</div>
+                    <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
+                    <label class="button fill" for="fileElem">FOTOĞRAF SEÇ VEYA SÜRÜKLE</label>
+                    <p class="file-note">JPG, PNG, WEBP - Max 20MB</p>
                 </div>
-                
-                <div id="verdict-badge" class="status-badge">Analiz Tamamlandı</div>
-                
-                <p id="verdict-desc"></p>
 
-                <ul class="report-list" id="report-area">
-                    </ul>
-
-                <div class="footer-actions">
-                    <p style="font-size: 0.75rem; color: #475569; margin-bottom: 15px;">
-                        Analiz ID: #<span id="analysis-id">000000</span>
-                    </p>
-                    <button onclick="location.reload()" class="retry-btn">YENİ ANALİZ BAŞLAT</button>
+                <div id="file-ready" class="hidden">
+                    <p class="ready-text">> 1 Dosya Hazır.</p>
                 </div>
-            </div>
+
+                <button class="button forensic-start" id="start-btn" onclick="startAnalysis()" disabled>
+                    ANALİZİ BAŞLAT
+                </button>
+            </section>
+
+            <section class="forensic-panel log-panel">
+                <h3 class="panel-h blue-dot">CANLI ANALİZ LOGU</h3>
+                <div class="log-stream" id="log-stream">
+                    <p class="log-placeholder">Analiz başladığında kayıtlar burada görünecek...</p>
+                </div>
+            </section>
         </div>
+
+        <footer class="app-footer">
+            <div class="footer-left">
+                <span class="warning-icon">⚠️</span>
+                <span>APP PLAKA TESPİT KURALLARI</span>
+            </div>
+            <div class="active-rules">
+                <span>12 AKTİF KURAL</span>
+                <span class="arrow-down">▼</span>
+            </div>
+        </footer>
+
     </div>
 
     <script src="script.js"></script>
