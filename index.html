@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATE FORENSICS PRO | AI-Adli Analiz</title>
+    <title>PLATE FORENSICS PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,42 +12,36 @@
     <div id="boot-modal" class="modal">
         <div class="modal-box">
             <h2 class="neon-text">SİSTEM YÜKLENİYOR</h2>
-            <p class="modal-desc">[ANALİZ PROTOKOLÜ: Bu yazılım plaka standartlarını fiziksel parametreler üzerinden simüle eder.]</p>
-            <button onclick="bootSystem()" class="btn neon-border">SİSTEMİ BAŞLAT</button>
+            <p>[ANALİZ PROTOKOLÜ: V5.0 ADLİ TARAMA ÜNİTESİ]</p>
+            <button id="boot-btn" class="btn main-btn">SİSTEMİ BAŞLAT</button>
         </div>
     </div>
 
     <div class="container" id="main-ui">
         <header>
             <div class="logo">
-                <h1>PLATE <span class="thin">FORENSICS</span></h1>
-                <div class="sub-logo">ADVANCED AI DETECTION SYSTEM V5.0</div>
+                <h1>PLATE <span style="font-weight:300">FORENSICS</span></h1>
+                <div style="font-size:0.7rem; color:#00f3ff">ADVANCED AI DETECTION V5.0</div>
             </div>
-            <div id="clock" class="neon-text">CONNECTING...</div>
+            <div id="clock" style="color:#00f3ff">00:00:00 | SECURE_LINK</div>
         </header>
 
         <div class="grid">
             <section class="cyber-panel">
-                <h3 class="panel-title">[01] VERİ ENJEKSİYONU</h3>
-                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('fileInput').click()">
+                <h3 style="color:#00f3ff; margin-top:0;">[01] VERİ ENJEKSİYONU</h3>
+                <div class="drop-zone" id="drop-zone">
                     <input type="file" id="fileInput" multiple accept="image/*" style="display:none">
-                    <div id="drop-text">GÖRSELİ BURAYA BIRAKIN VEYA SEÇİN</div>
-                    <div class="file-hints">JPG, PNG, RAW | MULTI-SYNC SUPPORT</div>
+                    <div id="drop-text">GÖRSELİ SEÇİN VEYA BIRAKIN</div>
                 </div>
                 <button id="scan-btn" class="btn main-btn" disabled>DERİN TARAMAYI BAŞLAT</button>
             </section>
 
             <section class="cyber-panel">
-                <h3 class="panel-title" style="color: #ffcf00;">[02] ADLİ ANALİZ ÇIKTISI</h3>
+                <h3 style="color:#ffcf00; margin-top:0;">[02] ADLİ ANALİZ ÇIKTISI</h3>
                 <div class="terminal" id="terminal">
-                    <div class="log-entry log-info">> Sistem beklemede... Veri girişi yapın.</div>
+                    <div class="log-entry">> Sistem hazır...</div>
                 </div>
             </section>
-        </div>
-
-        <div class="status-bar">
-            <span class="log-crit">GÜNCEL CEZA UYARISI:</span> 2026 yılı itibarıyla standart dışı plaka kullanımı 
-            <span class="log-crit">₺3.830</span> para cezası ve muayenede <span class="log-crit">AĞIR KUSUR</span> sebebidir.
         </div>
     </div>
 
