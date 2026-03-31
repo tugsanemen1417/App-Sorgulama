@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATE FORENSICS | Plaka Orijinallik Analiz</title>
+    <title>PLATE FORENSICS | Plaka Analiz</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Play&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,11 +15,11 @@
             <p>> Bu sistem plaka geometrisi ve karakter kalınlığını tarar.</p>
             <p>> APP (Standart dışı) plaka kullanımı yasal riskler içerir.</p>
             <p>> Analiz sonuçları teknik bir tahmindir.</p>
-            <button onclick="acceptRules()" class="button neon">PROTOKOLÜ KABUL ET</button>
+            <button id="accept-btn" class="button neon">PROTOKOLÜ KABUL ET</button>
         </div>
     </div>
 
-    <div class="container hidden" id="main-content">
+    <div class="container" id="main-content">
         
         <header class="app-header">
             <div class="header-left">
@@ -40,26 +40,23 @@
                 <h3 class="panel-h yellow-dot">VERİ GİRİŞİ</h3>
                 <div class="upload-area">
                     <div class="icon">📷</div>
-                    <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
-                    <label class="button fill" for="fileElem">FOTOĞRAF SEÇ / SÜRÜKLE</label>
+                    <input type="file" id="fileElem" accept="image/*" multiple onchange="handleFiles(this.files)" style="display: none;">
+                    <label class="button fill" for="fileElem">FOTOĞRAFLARI SEÇ (ÇOKLU)</label>
                     <p id="file-status" style="font-size: 0.75rem; color: #475569; margin-top:10px;">Dosya Bekleniyor...</p>
                 </div>
-                <button class="button forensic-start" id="start-btn" onclick="startAnalysis()" disabled>ANALİZİ BAŞLAT</button>
+                <button class="button forensic-start" id="start-btn" disabled>ANALİZİ BAŞLAT</button>
             </section>
 
             <section class="forensic-panel">
                 <h3 class="panel-h blue-dot">CANLI ANALİZ LOGU</h3>
                 <div class="log-stream" id="log-stream">
-                    <p class="log-placeholder">Sistem analiz için veri girişi bekliyor...</p>
+                    <p class="log-placeholder">Sistem veri girişi bekliyor...</p>
                 </div>
             </section>
         </div>
 
         <footer class="app-footer">
-            <div class="footer-left">
-                <span class="warning-icon">🚨</span>
-                <span>APP PLAKA TESPİT PROTOKOLÜ</span>
-            </div>
+            <div class="footer-left">🚨 APP PLAKA TESPİT PROTOKOLÜ</div>
             <div class="active-rules">12 AKTİF KURAL AKTİF ▼</div>
         </footer>
     </div>
