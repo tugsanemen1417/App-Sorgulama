@@ -3,50 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlakaScanner | AI Analiz</title>
+    <title>PlakaScanner AI | Profesyonel Analiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
+
     <div id="disclaimer-modal" class="modal">
         <div class="modal-content">
-            <h3>⚠️ Yasal Uyarı ve Kurallar</h3>
-            <p>1. Bu sistem plakanın font kalınlığı, köşe yapısı ve mühür alanını analiz eder.</p>
-            <p>2. Sonuçlar tahmindir, resmi belge yerine geçmez.</p>
-            <button onclick="acceptRules()" class="button">ANLADIM, BAŞLA</button>
+            <h3>⚠️ Analiz Kuralları</h3>
+            <p>Sistemimiz plakanın <b>font geometrisi, karakter kalınlığı ve mühür alanlarını</b> dijital olarak tarar.</p>
+            <p>Sonuçlar yapay zeka tahminidir, resmi tescil yerine geçmez.</p>
+            <button onclick="acceptRules()" class="button">DEVAM ET</button>
         </div>
     </div>
 
     <div class="container" id="main-content">
         <header>
             <h1>Plaka<span>Scanner</span></h1>
-            <p>APP ve Orijinal Plaka Analiz Laboratuvarı</p>
+            <p id="sub-header">AI Destekli Fiziksel Doğrulama Sistemi</p>
         </header>
 
         <div class="upload-section" id="upload-area">
-            <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)">
-            <label class="button" for="fileElem">PLAKA FOTOĞRAFI SEÇ</label>
-            <p>Analiz için net bir fotoğraf gereklidir.</p>
+            <div class="icon">📸</div>
+            <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
+            <label class="button" for="fileElem">FOTOĞRAF ANALİZ ET</label>
+            <p style="font-size: 0.8rem; color: #64748b; margin-top: 15px;">Net ve düz çekilmiş fotoğraflar daha doğru sonuç verir.</p>
         </div>
 
         <div id="loading" class="hidden">
-            <div class="scanner-line"></div>
-            <p id="status-text">Yapay zeka karakterleri okuyor...</p>
+            <div class="scanner-container">
+                <div class="scanner-line"></div>
+                <div class="scan-bg"></div>
+            </div>
+            <p id="status-text">Karakterler ve Font Yapısı İnceleniyor...</p>
         </div>
 
         <div id="result-card" class="hidden">
-            <div class="ocr-box">
-                <span>Okunan Metin:</span>
-                <h2 id="plate-text">---</h2>
+            <div class="result-details">
+                
+                <div class="ocr-box">
+                    <small>TESPİT EDİLEN PLAKA</small>
+                    <h2 id="plate-text">---</h2>
+                </div>
+                
+                <div id="verdict-badge" class="status-badge">Analiz Tamamlandı</div>
+                
+                <p id="verdict-desc"></p>
+
+                <ul class="report-list" id="report-area">
+                    </ul>
+
+                <div class="footer-actions">
+                    <p style="font-size: 0.75rem; color: #475569; margin-bottom: 15px;">
+                        Analiz ID: #<span id="analysis-id">000000</span>
+                    </p>
+                    <button onclick="location.reload()" class="retry-btn">YENİ ANALİZ BAŞLAT</button>
+                </div>
             </div>
-            <div id="score-circle">
-                <span id="percent">%0</span>
-            </div>
-            <h3 id="verdict-title">Analiz Ediliyor...</h3>
-            <p id="verdict-desc"></p>
-            <button onclick="location.reload()" class="retry-btn">YENİ TARAMA</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
